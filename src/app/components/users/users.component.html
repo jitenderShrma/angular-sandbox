@@ -1,0 +1,72 @@
+<h5 class="my-4">Add New User</h5>
+<div class="row mb-4">
+  <div class="col col-sm-4">
+    <input type="button" class="btn btn-primary pointer" value="add user" (click)="addUserClick()" [hidden]="!formHide">
+    <form #userForm="ngForm" (submit)="addNewUser(userForm)" [hidden]="formHide">
+      <div class="form-group">
+        <label for="firstName">FirstName</label>
+        <input type="text" class="form-control" id="firstName" aria-describedby="emailHelp" placeholder="John"
+          [(ngModel)]="user.firstName" name="firstName"
+          #userFirstName="ngModel"
+          required
+          minlength="2"
+          [ngClass]="{'is-invalid': userFirstName.errors && userFirstName.touched}"
+          >
+          <div class="invalid-feedback" [hidden]="!userFirstName.errors?.minlength">Must be atleast two charactors.</div>
+          <div class="invalid-feedback" [hidden]="!userFirstName.errors?.required">First Name Required</div>
+      </div>
+      <div class="form-group">
+        <label for="lastName">LastName</label>
+        <input type="text" class="form-control" id="lastName" aria-describedby="emailHelp" placeholder="Dho" required minlength="2"
+          [(ngModel)]="user.lastName" name="lastName" #userLastName="ngModel" [ngClass]="{'is-invalid': userLastName.errors && userLastName.touched}">
+          <div class="invalid-feedback" [hidden]="!userLastName.errors?.required">Last Name Required</div>
+          <div class="invalid-feedback" [hidden]="!userLastName.errors?.minlength">Must be two charactors.</div>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="dho@gmail.com" required 
+          [(ngModel)]="user.email" name="email" #userEmail="ngModel" [ngClass]="{'is-invalid': userEmail.errors && userEmail.touched}" pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?">
+          <div class="invalid-feedback" [hidden]="!userEmail.errors?.required">Email Required</div>
+          <div class="invalid-feedback" [hidden]="!userEmail.errors?.pattern">Use a valid email</div>
+      </div>
+      <!-- <div class="form-group">
+        <label for="street">Street</label>
+        <input type="text" class="form-control" id="street" aria-describedby="emailHelp" placeholder="5 main street" required 
+          [(ngModel)]="user.address.street" name="user.address.street" #street="ngModel" [ngClass]="{'is-invalid': street.errors && street.touched}" minlength="2">
+          <div class="invalid-feedback" [hidden]="!street.errors?.required">Street Required</div>
+          <div class="invalid-feedback" [hidden]="!street.errors?.minlength">Use a valid street address</div>
+      </div> -->
+      <!-- <div class="form-group">
+        <label for="city">City</label>
+        <input type="text" class="form-control" id="city" aria-describedby="emailHelp" placeholder="Jaipur" required 
+          [(ngModel)]="user.address.city" name="city" #city="ngModel" [ngClass]="{'is-invalid': city.errors && city.touched}" minlength="2">
+          <div class="invalid-feedback" [hidden]="!city.errors?.required">City Required</div>
+          <div class="invalid-feedback" [hidden]="!city.errors?.minlength">Use a valid city</div>
+      </div> -->
+      <!-- <div class="form-group">
+        <label for="state">State</label>
+      <input type="text" id="state" class="form-control" [(ngModel)]="user.address.state" name="state" #state="ngModel" [ngClass]="{'is-invalid': state.errors?.required && state.touched}"  required minlength="2">
+         <div class="invalid-feedback" [hidden]="!state.errors?.minlength">Must be two charactors</div>
+      <div class="invalid-feedback" [hidden]="!state.errors?.required">State Required</div>
+      </div> -->
+      <input type="submit" class="btn btn-primary" [disabled]="user.firstName == '' ||   user.lastName == '' || user.email == '' ">
+    </form>
+  </div>
+</div>
+
+<ul class="list-group list-unstyled row">
+    <li class="list-group-item col col-sm-4 smooth-transition" *ngFor="let user of users">
+        <h3>{{ user.firstName }} {{ user.lastName | lowercase }} <small *ngIf="user.email && user.firstName"><button
+              (click)="user.hide = !user.hide" class="btn btn-dark btn-sm pointer smooth-transition"><i
+                [ngClass]="user.hide ? 'fa fa-plus' : 'fa fa-minus'"></i></button></small></h3>
+        
+                <ul class="list-group  smooth-transition" *ngIf="!user.hide && user.firstName && user.email">
+                    <li class="list-group-item">Email: {{ user.email }}</li>
+                    <li class="list-group-item">Registered at: {{ user.registered | date:'fullTime'  }}</li>
+
+                  
+                  </ul>
+      </li>
+</ul>
+<p *ngIf="users?.length == 0">No user found!</p>
+<h1 *ngIf="!loaded">Loading users...</h1>
