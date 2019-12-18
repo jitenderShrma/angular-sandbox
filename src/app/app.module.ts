@@ -38,5 +38,6 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
   ],
   providers: [ PostsService, DataService, PostsComponent ],
   bootstrap: [AppComponent]
-})
-export class AppModule { }
+  })
+  export class AppModule {}
+    
