@@ -52,9 +52,7 @@ export class DataService {
     return of(this.users);
   }
   addUser(user:User){
-      setTimeout(() => {
         this.users.unshift(user);
-      }, 4000);
   }
   getData(){
     this.data = new Observable(observer => {
